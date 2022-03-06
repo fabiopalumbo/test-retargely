@@ -41,8 +41,8 @@ variable "lambda" {
         description = "Map of lambda funtions configuration"
         type = any
         default = { 
-                redshift_loader = {
-                        handler = "redshift_loader.handler"
+                text_loader = {
+                        handler = "text_loader.handler"
                         runtime = "python3.7"
                         source_path = "./functions/s3_text_returner.py"
                 }                                        

@@ -4,6 +4,10 @@ resource "random_string" "this" {
   upper   = false
 }
 
+##################
+# S3 Bucket      #
+##################
+
 module "s3_bucket" {
   source = "./modules/s3_bucket"
 
@@ -19,12 +23,20 @@ module "s3_bucket" {
   tags = local.tags
 }
 
+##################
+# API Gateway    #
+##################
+
 module "apigw" {
   source = "./modules/apigw"
   s3_arn = module.s3_bucket.s3_bucket_arn
 
   tags = local.tags
 }
+
+#######
+# VPC #
+#######
 
 module "vpc" {
   source = "./modules/vpc"
@@ -57,4 +69,73 @@ module "vpc" {
   private_dedicated_network_acl = true
 
   tags = local.tags 
+}
+
+##########
+# Lambda #
+##########
+
+module "text_loader" {
+  count = var.lambda_enabled ? 1 : 0
+
+  source = "./modules/lambda"
+
+  function_name = "${local.identifier}-test-loader-${random_string.this.id}"
+  description   = "Lambda function to asynchronous retrieve file from s3 bucket"
+  handler       = var.lambda.text.handler
+  runtime       = var.lambda.text_loader.runtime
+  timeout       = 30
+
+  source_path   = var.lambda.text_loader.source_path
+
+  attach_policies = true
+  number_of_policies = 3
+  policies        = [
+    aws_iam_policy.text_lambda_loader[0].arn,
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+    "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess",
+  ]
+
+  publish = true
+
+  environment_variables = {
+    DEBUG = "true"
+    LOG_LEVEL = "info"
+  }
+
+  tags = local.tags
+}
+
+
+###############################
+# VPC Endpoint Security Group #
+###############################
+
+resource "aws_security_group" "endpoint_securitygroup" {
+
+  name        = "${local.identifier}-vpc-endpoint-${random_string.this.id}"
+  description = "Allow VPC traffic"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    description      = "Allow from VPC"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = [var.vpc_cidr]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags = local.tags
 }
