@@ -1,9 +1,9 @@
 variable "s3_arn" { 
-    type = string 
+  type = string 
 }
 variable "identifier" {
-    type = string 
-    default = "identifier"
+  type = string 
+  default = "identifier"
 }
 variable "tags" {
   description = "A map of tags to add to all resources"
@@ -12,5 +12,6 @@ variable "tags" {
 }
 
 variable "lambda_arn" { 
-    type = string 
+  type = string
+  default = ""
 }
