@@ -80,7 +80,7 @@ module "text_loader" {
 
   source = "./modules/lambda"
 
-  function_name = "${local.identifier}-test-loader-${random_string.this.id}"
+  function_name = "${local.identifier}-text-loader-${random_string.this.id}"
   description   = "Lambda function to asynchronous retrieve file from s3 bucket"
   handler       = var.lambda.text_loader.handler
   runtime       = var.lambda.text_loader.runtime
