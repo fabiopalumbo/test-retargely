@@ -224,7 +224,7 @@ module "alarm" {
   statistic   = "Maximum"
 
   dimensions = {
-    FunctionName = module.lambda.this_lambda_function_name
+    FunctionName = module.text_loader.this_lambda_function_name
   }
 
   # alarm_actions = [module.aws_sns_topic.sns_topic_arn]
