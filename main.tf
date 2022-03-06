@@ -231,7 +231,7 @@ module "alarm" {
 }
 
 module "dashboard" {
-  source = "./modules/cloudwatch/metric-alarm"
+  source = "./modules/cloudwatch/dashboard"
   dashboard_name = var.identifier
 
 }
