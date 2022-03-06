@@ -151,13 +151,13 @@ Fexibility
 
 </details>
 
-## Monitoring and ALerting
+## Monitoring and Alerting
 
 (WIP)
 
 ## CICD Automation
 
-(Explnatino WIP)
+(Explnation WIP)
 
 Using a CI/CD tool (i.e. Github Actions) 
 1. Setup a build process to create a docker image of just the batch processing part of the monolithic application.
@@ -184,80 +184,6 @@ Wew will use the principle of Least Priviledge
 ## Compliance
 
 (WAF) (GDPR)
-
-
-## Migration
-
-There is no real benefit of creating a new migration strategy if there is already one that is proven to work. I recommend using AWS DMS  
-
-What Migration Strategy would you choose?
-
-AWS DMS -  AWS Database Migration Service. 
-
-https://docs.aws.amazon.com/prescriptive-guidance/latest/patterns/migrate-an-on-premises-oracle-database-to-amazon-rds-for-oracle.html
-
-Code modification to incorporate the AWS infrastructure replacing some code logic that might be in place that performs steps that are already taken care by the AWS cloud infra. 
-
-## App Migration Plan
-The application is monolithic, therefore, some of the components of the application will be replaced by the cloud infrastructure. The main component of the application we required is the actual batch processing piece, which is the one that will be used by the batch instances. 
-
-1. Isolate the data transformer - the one that preformats the forms data into something that the batch process is able to handle. 
-2. Use the data transformer to create a lambda function to preformat data at the AWS Kinesis stream step. (Lambda function is provided for that purpose)
-3. Isolate the batch processing code. 
-4. Create a Dockerfile with all the required dependencies for the batch process code to run. 
-5. Modify the batch process code to consume and AWS SQS with the metadata of the user filled data from the forms. 
-6. Modify the batch process code to pull the required form data using the metadata pulled from AWS SQS.
-7. Modify the batch process code to process the preformated data stored in AWS Redshift. 
-8. Keep the code to update the processed data in to the Oracle DB. 
-9. Push the new Docker image to the AWS Batch ECR repository. 
-
-## Database Migration Plan
-
-Using AWS DMS.
-
-At the on-premise Oracle DB
-1. Enable database-level supplemental logging -> `ALTER DATABASE ADD SUPPLEMENTAL LOG DATA;`
-2. Enable identification key supplemental logging -> `ALTER DATABASE ADD SUPPLEMENTAL LOG DATA (PRIMARY KEY) COLUMNS;`
-3. Add supplemental logging on a subset of columns in a table, -> `ALTER TABLE table_name ADD SUPPLEMENTAL LOG GROUP example_log_group (ID,NAME) ALWAYS;`
-4. Configure a database account to be used by AWS DMS
-```
-CREATE SESSION
-SELECT ANY TRANSACTION
-SELECT on V_$ARCHIVED_LOG
-SELECT on V_$LOG
-SELECT on V_$LOGFILE
-SELECT on V_$DATABASE
-SELECT on V_$THREAD
-SELECT on V_$PARAMETER
-SELECT on V_$NLS_PARAMETERS
-SELECT on V_$TIMEZONE_NAMES
-SELECT on V_$TRANSACTION
-SELECT on ALL_INDEXES
-SELECT on ALL_OBJECTS
-SELECT on ALL_TABLES
-SELECT on ALL_USERS
-SELECT on ALL_CATALOG
-SELECT on ALL_CONSTRAINTS
-SELECT on ALL_CONS_COLUMNS
-SELECT on ALL_TAB_COLS
-SELECT on ALL_IND_COLUMNS
-SELECT on ALL_LOG_GROUPS
-SELECT on SYS.DBA_REGISTRY
-SELECT on SYS.OBJ$
-SELECT on DBA_TABLESPACES
-SELECT on ALL_TAB_PARTITIONS
-SELECT on ALL_ENCRYPTED_COLUMNS
-* SELECT on all tables migrated
-```
-5. Capture and apply changes (CDC)
-```
-EXECUTE on DBMS_LOGMNR
-SELECT on V_$LOGMNR_LOGS
-SELECT on V_$LOGMNR_CONTENTS
-LOGMINING /* For Oracle 12c and higher. */
-* ALTER for any table being replicated (if you want DMS to add supplemental logging)
-```
-
 
 ## Budget
 

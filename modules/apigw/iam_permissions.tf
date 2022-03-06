@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "api_gw_access_s3_assume_policy" {
       actions = [
         "s3:ListAllMyBuckets"
       ]
-      resources = "*"
+      resources = ["*"]
       }
   statement {        
       effect = "Allow"
