@@ -29,7 +29,8 @@ module "s3_bucket" {
 
 module "apigw" {
   source = "./modules/apigw"
-  s3_arn = module.s3_bucket.s3_bucket_arn
+  s3_arn        = module.s3_bucket.s3_bucket_arn
+  lambda_arn    = module.text_loader.this_lambda_function_arn
 
   tags = local.tags
 }
@@ -80,7 +81,7 @@ module "text_loader" {
 
   source = "./modules/lambda"
 
-  function_name = "${local.identifier}-text-loader-${random_string.this.id}"
+  function_name = "${local.identifier}-text-loader"
   description   = "Lambda function to asynchronous retrieve file from s3 bucket"
   handler       = var.lambda.text_loader.handler
   runtime       = var.lambda.text_loader.runtime
@@ -224,7 +225,7 @@ module "alarm" {
   statistic   = "Maximum"
 
   dimensions = {
-    FunctionName = module.text_loader.this_lambda_function_name
+    FunctionName = "${local.identifier}-text-loader"
   }
 
   # alarm_actions = [module.aws_sns_topic.sns_topic_arn]

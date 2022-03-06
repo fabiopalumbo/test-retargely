@@ -10,3 +10,7 @@ variable "tags" {
   type        = any
   default     = {}
 }
+
+variable "lambda_arn" { 
+    type = string 
+}
