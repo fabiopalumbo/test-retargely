@@ -33,6 +33,12 @@ module "apigw" {
   lambda_arn    = module.text_loader.lambda_function_arn
 
   tags = local.tags
+
+  depends_on = [
+    "module.text_loader",
+    "module.s3_bucket"
+  ]
+
 }
 
 #######
