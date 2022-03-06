@@ -139,3 +139,48 @@ resource "aws_security_group" "endpoint_securitygroup" {
 
   tags = local.tags
 }
+
+#####################
+# Lambda IAM Policy #
+#####################
+
+resource "aws_iam_policy" "lambda_loader" {
+  count = var.lambda_enabled ? 1 : 0
+
+  name        = "${local.identifier}-lambda-loader-${random_string.this.id}"
+  path        = "/"
+  description = "Text loader lambda policy"
+  policy = data.aws_iam_policy_document.lambda_loader[0].json
+}
+
+data "aws_iam_policy_document" "lambda_loader" {
+  count = var.lambda_enabled ? 1 : 0
+  statement {
+      effect = "Allow"
+      actions = [
+        "s3:GetObject",
+        "s3:GetObjectAcl"
+      ]
+      resources = [
+        "arn:aws:s3:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:{var.bucket}",
+        "arn:aws:s3:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:{var.bucket}/*",
+      ]
+  }
+  statement {        
+      effect = "Allow"
+      actions = [
+        "s3:ListAllMyBuckets"
+      ]
+      resources = ["*"]
+      }
+  statement {        
+      effect = "Allow"
+      actions = [
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ]
+      resources = [
+        "arn:aws:s3:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:{var.bucket}"
+      ]
+      }
+}
