@@ -37,6 +37,12 @@ variable vpc_cidr {
 }
 
 # Lambda Functions 
+
+variable "lambda_enabled" {
+  type = bool
+  default = false
+}
+
 variable "lambda" {
         description = "Map of lambda funtions configuration"
         type = any
