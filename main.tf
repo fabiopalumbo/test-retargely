@@ -87,7 +87,8 @@ module "text_loader" {
   timeout       = 30
 
   source_path   = var.lambda.text_loader.source_path
-
+  create_package      = false
+  
   attach_policies = true
   number_of_policies = 3
   policies        = [
