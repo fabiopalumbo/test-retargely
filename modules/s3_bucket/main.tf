@@ -2,6 +2,13 @@ locals {
   attach_policy = var.attach_require_latest_tls_policy || var.attach_elb_log_delivery_policy || var.attach_lb_log_delivery_policy || var.attach_deny_insecure_transport_policy || var.attach_policy
 }
 
+resource "aws_s3_bucket_object" "file_upload" {
+  bucket = var.bucket
+  key    = "text.txt"
+  source = "${path.module}/files/text.txt"
+  etag   = "${filemd5("${path.module}/files/text.txt")}"  
+}
+
 resource "aws_s3_bucket" "this" {
   count = var.create_bucket ? 1 : 0
 

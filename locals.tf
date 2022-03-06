@@ -13,7 +13,7 @@ locals {
       Environment = var.environment
     }
 
-    cidrs             = chunklist(cidrsubnets(var.vpc_cidr, [for i in range(var.azs_count * 3) : var.vpc_offset]...), var.azs_count)
-    public_cidrs      = local.cidrs[0]
-    private_cidrs     = local.cidrs[1]
+    # cidrs           = chunklist(cidrsubnets(var.vpc_cidr, [for i in range(var.azs_count * 3) : var.vpc_offset]...), var.azs_count)
+    public_cidrs      = ["10.0.1.0/24", "10.0.2.0/24"]
+    private_cidrs     = ["10.0.101.0/24", "10.0.102.0/24"]
 }

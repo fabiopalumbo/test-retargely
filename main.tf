@@ -29,6 +29,7 @@ module "s3_bucket" {
 
 module "apigw" {
   source = "./modules/apigw"
+  acl    = "private"
   s3_arn = module.s3_bucket.s3_bucket_arn
 
   tags = local.tags
@@ -88,7 +89,7 @@ module "text_loader" {
 
   source_path   = var.lambda.text_loader.source_path
   create_package      = false
-  
+
   attach_policies = true
   number_of_policies = 3
   policies        = [
