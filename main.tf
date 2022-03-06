@@ -35,8 +35,8 @@ module "apigw" {
   tags = local.tags
 
   depends_on = [
-    "module.text_loader",
-    "module.s3_bucket"
+    module.text_loader,
+    module.s3_bucket
   ]
 
 }
