@@ -144,7 +144,7 @@ resource "aws_security_group" "endpoint_securitygroup" {
 # Lambda IAM Policy #
 #####################
 
-resource "aws_iam_policy" "lambda_loader" {
+resource "aws_iam_policy" "text_lambda_loader" {
   count = var.lambda_enabled ? 1 : 0
 
   name        = "${local.identifier}-lambda-loader-${random_string.this.id}"
@@ -153,7 +153,7 @@ resource "aws_iam_policy" "lambda_loader" {
   policy = data.aws_iam_policy_document.lambda_loader[0].json
 }
 
-data "aws_iam_policy_document" "lambda_loader" {
+data "aws_iam_policy_document" "text_lambda_loader" {
   count = var.lambda_enabled ? 1 : 0
   statement {
       effect = "Allow"
