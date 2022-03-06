@@ -21,7 +21,7 @@ module "s3_bucket" {
 
 module "apigw" {
   source = "./modules/apigw"
-  s3_arn = module.s3_bucket.arn
+  s3_arn = module.s3_bucket.s3_bucket_arn
 
   tags = local.tags
 }
@@ -51,7 +51,7 @@ module "vpc" {
   public_subnets               = local.public_cidrs
   public_dedicated_network_acl = true
 
-  # Application subnets
+  # Private subnets
   private_subnets               = local.private_cidrs
   private_subnet_suffix         = "private"
   private_dedicated_network_acl = true
