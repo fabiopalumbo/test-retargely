@@ -93,11 +93,11 @@ The proposed solution performs the following acctions.
 
 ## Constrains
 
-* Bot account with AWS privileges to run Terraform
+* CICD account with AWS privileges to run Terraform
 * Secrets stored in the Github repository in order to the pipeline to dont fail
 * Local environment (.env) vars for test deplolyment
 
-# Process for local Testtin
+# Process for local testing
 
 1. Use the `env.template` file to create the `.env` file.
 2. Populate the `.env` file with your AWS access KEYs and selected Region.

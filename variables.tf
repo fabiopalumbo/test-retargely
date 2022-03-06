@@ -15,6 +15,11 @@ variable "environment" {
   default = "dev"
 }
 
+variable "bucket" {
+  type = string
+  default = "retargely"
+}
+
 variable vpc_offset {
         description     = "Denotes the number of address locations added to a base address in order to get to a specific absolute address, Usually the 8-bit byte"
         type            = number
