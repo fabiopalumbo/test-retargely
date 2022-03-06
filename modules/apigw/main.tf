@@ -44,19 +44,8 @@ resource "aws_api_gateway_integration" "this" {
   resource_id             = aws_api_gateway_resource.this.id
   http_method             = aws_api_gateway_method.this.http_method
   integration_http_method = "POST"
-  type                    = "AWS"
-  uri                     = "arn:aws:apigateway:${data.aws_region.current.name}:firehose:action/PutRecord"
-  credentials = aws_iam_role.api_gw_role.arn
-  request_templates = {
-    "application/json" = <<EOF
-{
-    "DeliveryStreamName": $input.json('$.StreamName'),
-    "Record": {
-      "Data": "$util.base64Encode($input.json('$.Data'))"
-    }
-}
-EOF
-  }
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.this.invoke_arn
 }
 
 resource "aws_api_gateway_method_response" "this" {
