@@ -54,6 +54,7 @@ The Git repository should contain a README that explains step by step how to run
 
 4 - Explain: With what tool and how would you implement the monitoring/alerts.
 
+</details>
 
 ## FAQ
 

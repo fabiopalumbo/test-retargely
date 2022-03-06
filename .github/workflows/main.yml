@@ -48,7 +48,7 @@ jobs:
     - name: Integration Test
       id: test
       run: |
-        echo "Webhook for Integration Tests"
+        echo "Terratest"
 
     - name: Terraform apply
       if: github.ref == 'refs/heads/master_test'
