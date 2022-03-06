@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "apigw_assume_role" {
 
 #Define a policy which will allow APIGW to access your s3
 data "aws_iam_policy_document" "api_gw_access_s3_assume_policy" {
-  statement [
+  statement = [
       {
       effect = "Allow"
       actions = [
