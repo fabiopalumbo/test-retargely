@@ -12,8 +12,7 @@ data "aws_iam_policy_document" "apigw_assume_role" {
 
 #Define a policy which will allow APIGW to access your s3
 data "aws_iam_policy_document" "api_gw_access_s3_assume_policy" {
-  statement = [
-      {
+  statement {
       effect = "Allow"
       actions = [
         "s3:GetObject",
@@ -23,15 +22,15 @@ data "aws_iam_policy_document" "api_gw_access_s3_assume_policy" {
         "arn:aws:s3:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:{var.bucket}",
         "arn:aws:s3:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:{var.bucket}/*",
       ]
-      },
-      {
+  }
+  statement {        
       effect = "Allow"
       actions = [
         "s3:ListAllMyBuckets"
       ]
       resources = "*"
-      },
-      {
+      }
+  statement {        
       effect = "Allow"
       actions = [
         "s3:ListBucket",
@@ -40,8 +39,7 @@ data "aws_iam_policy_document" "api_gw_access_s3_assume_policy" {
       resources = [
         "arn:aws:s3:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:{var.bucket}"
       ]
-      }         
-  ]
+      }
 }
 
 #creates a new iam role
