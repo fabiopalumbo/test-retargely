@@ -150,7 +150,7 @@ resource "aws_iam_policy" "text_lambda_loader" {
   name        = "${local.identifier}-lambda-loader-${random_string.this.id}"
   path        = "/"
   description = "Text loader lambda policy"
-  policy = data.aws_iam_policy_document.lambda_loader[0].json
+  policy = data.aws_iam_policy_document.text_lambda_loader[0].json
 }
 
 data "aws_iam_policy_document" "text_lambda_loader" {
