@@ -30,7 +30,7 @@ module "s3_bucket" {
 module "apigw" {
   source = "./modules/apigw"
   s3_arn        = module.s3_bucket.s3_bucket_arn
-  lambda_arn    = module.text_loader.this_lambda_function_arn
+  lambda_arn    = module.text_loader.lambda_function_arn
 
   tags = local.tags
 }

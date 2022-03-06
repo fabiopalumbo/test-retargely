@@ -102,3 +102,13 @@ output "local_filename" {
 #   description = "The map with S3 object data of zip archive deployed (if deployment was from S3)"
 #   value       = map("bucket", local.s3_bucket, "key", local.s3_key, "version_id", local.s3_object_version)
 # }
+
+output "lambda_function_arn" {
+  description = "The ARN of the Lambda Function"
+  value       = try(aws_lambda_function.this[0].arn, "")
+}
+
+output "lambda_function_invoke_arn" {
+  description = "The Invoke ARN of the Lambda Function"
+  value       = try(aws_lambda_function.this[0].invoke_arn, "")
+}
