@@ -185,3 +185,53 @@ data "aws_iam_policy_document" "text_lambda_loader" {
       ]
       }
 }
+
+################
+# Cloudwatch   #
+################
+
+module "all_lambdas_errors_alarm" {
+  source = "./modules/cloudwatch/metric-alarm"
+
+  alarm_name          = "${local.identifier}-all-lambdas-errors-${random_string.this.id}"
+  alarm_description   = "Lambdas with errors"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 1
+  threshold           = 0
+  period              = 60
+  unit                = "Count"
+
+  namespace   = "AWS/Lambda"
+  metric_name = "Errors"
+  statistic   = "Maximum"
+
+  # alarm_actions = [module.aws_sns_topic.sns_topic_arn]
+}
+
+module "alarm" {
+  source = "./modules/cloudwatch/metric-alarm"
+
+  alarm_name          = "${local.identifier}-lambda-duration-${random_string.this.id}"
+  alarm_description   = "Lambda duration is too high"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 1
+  threshold           = 10
+  period              = 60
+  unit                = "Milliseconds"
+
+  namespace   = "AWS/Lambda"
+  metric_name = "Duration"
+  statistic   = "Maximum"
+
+  dimensions = {
+    FunctionName = module.lambda.this_lambda_function_name
+  }
+
+  # alarm_actions = [module.aws_sns_topic.sns_topic_arn]
+}
+
+module "dashboard" {
+  source = "./modules/cloudwatch/metric-alarm"
+  dashboard_name = var.identifier
+
+}
