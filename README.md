@@ -159,8 +159,9 @@ The proposed solution performs the following acctions.
 1. Use the `env.template` file to create the `.env` file.
 2. Populate the `.env` file with your AWS access KEYs and selected Region.
 3. Execute `source .env`.
-4. Execute `terraform plan`
-5. Execute `terraform apply`
+4. Change Backend to `local {}`
+5. Execute `terraform init`
+6. Execute `terraform plan`
 
 ## Terraform plan / Terratest
 
