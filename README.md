@@ -136,11 +136,11 @@ The following is ***a proposal***. Therefore, the infrastructure may have the re
 ![alt text](/images/proposed_diagram.png "Proposed diagram")
 
 The proposed solution performs the following acctions. 
-
+```
 1. API GW will be consumed by End User at certain endpoint.
 2. API GW will be directly forwarding the data to a Lambda.
 3. Lambda will retrieve the information of a file stored in a s3 bucket. 
-
+```
 ## Requirements
 
 * An active AWS account
@@ -1505,52 +1505,53 @@ pruvate-subnets ["10.0.101.0/24", "10.0.102.0/24"]
 ## Observability
 
 We will consider the following metrics
-
+```
 * Scalability
 * Reliability
 * Availability
 * Latency
 * Fexibility 
-
+```
 ## Monitoring and Alerting
 
 We will use Cloudwatch to monitor API Gateway and Lambda Metrics
 
 Key metrics for monitoring AWS Lambda
-
+```
 1. Function utilization and performance metrics.
 2. Invocation metrics.
 3. Concurrency metrics.
 4. Provisioned concurrency metrics.
-
+```
 Key metrics for monitoring AWS Lambda
-
+```
 1. 5XX Error
 2. 4XX Error
 3. Service health status.
-
+```
 ## CICD Automation
 
 ![alt text](/images/cicd.png "CICD")
 
 Using a CI/CD tool (i.e. Github Actions) 
+```
 1. The CICD will review the Code using Sonarqube.
 2. Using the Terraform Github Actions functions will run the terraform fmt/ validate/ plan.
 3. Update the Lambda with new version if required.
 4. The CICD will publish the terraform plan in the PR
 5. After the PR gets merged to master the CICD will run the Terraform Apply
-
+```
 
 ## Permissions 
 
 All infrastructure authentication is controlled by IAM Roles. The FAQs state that the users do not required authentication. 
 
 Wew will use the principle of Least Priviledge 
-
+```
 1. We will create specific IAM Roles for Lambda to only access the Resource of the S3 bucket
 2. S3 Bucket will be retricted and with ACL configured as private
 3. Bussiness Logic will be deployed in the private layer
-
+```
 
 ## Calculation Report
 ![alt text](/images/estimate.png "AWS price estimation")
