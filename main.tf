@@ -68,7 +68,7 @@ module "s3_bucket" {
 module "apigw" {
   source = "./modules/apigw"
   s3_arn        = module.s3_bucket.s3_bucket_arn
-  lambda_arn    = "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:${local.identifier}-text-loader"
+  lambda_arn    = module.text_loader.lambda_function_invoke_arn
 
   tags = local.tags
 

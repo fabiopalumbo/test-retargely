@@ -9,7 +9,7 @@ resource "random_string" "this" {
 
 # API Gateway
 resource "aws_api_gateway_rest_api" "this" {
-  name        = "${var.identifier}-stream"
+  name        = "${var.identifier}-apigw"
   description = "${var.identifier} Endpoint"
   api_key_source  = "HEADER"
   
