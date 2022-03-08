@@ -152,7 +152,8 @@ The proposed solution performs the following acctions.
 
 * CICD account with AWS privileges to run Terraform
 * Secrets stored in the Github repository in order to the pipeline to dont fail
-* Local environment (.env) vars for test deplolyment
+* An S3 Bucket to store the backend of the Terraform code
+* Local environment (.env) vars for test deployment
 
 # Process for local testing
 
@@ -1534,9 +1535,10 @@ Key metrics for monitoring AWS Lambda
 
 Using a CI/CD tool (i.e. Github Actions) 
 1. The CICD will review the Code using Sonarqube.
-2. Using the Terraform Github Actions functions will run the terraform fmt/ validate.
-3. Update the Lambda with new version if required. 
-4. Publish in the PR the findings.
+2. Using the Terraform Github Actions functions will run the terraform fmt/ validate/ plan.
+3. Update the Lambda with new version if required.
+4. The CICD will publish the terraform plan in the PR
+5. After the PR gets merged to master the CICD will run the Terraform Apply
 
 
 ## Permissions 

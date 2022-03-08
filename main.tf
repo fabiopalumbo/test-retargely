@@ -93,7 +93,9 @@ module "text_loader" {
   runtime       = var.lambda.text_loader.runtime
   timeout       = 30
 
-  source_path   = var.lambda.text_loader.source_path
+  #source_path   = var.lambda.text_loader.source_path
+  local_existing_package = data.null_data_source.downloaded_package.outputs["filename"]
+
   create_package      = false
 
   attach_policies = true
@@ -113,6 +115,29 @@ module "text_loader" {
 
   tags = local.tags
 }
+
+locals {
+  package_url = "https://raw.githubusercontent.com/terraform-aws-modules/terraform-aws-lambda/master/examples/fixtures/python3.8-zip/existing_package.zip"
+  downloaded  = "downloaded_package_${md5(local.package_url)}.zip"
+}
+
+resource "null_resource" "download_package" {
+  triggers = {
+    downloaded = local.downloaded
+  }
+
+  provisioner "local-exec" {
+    command = "curl -L -o ${local.downloaded} ${local.package_url}"
+  }
+}
+
+data "null_data_source" "downloaded_package" {
+  inputs = {
+    id       = null_resource.download_package.id
+    filename = local.downloaded
+  }
+}
+
 
 
 ###############################

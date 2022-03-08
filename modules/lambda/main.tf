@@ -11,6 +11,8 @@ locals {
 
 }
 
+
+
 resource "aws_lambda_function" "this" {
   count = var.create && var.create_function && ! var.create_layer ? 1 : 0
 
