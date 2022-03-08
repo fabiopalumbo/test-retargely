@@ -129,20 +129,6 @@ We are going to deploy monitoring and alerts with Cloudwatch that is integrated 
 
 ## FAQ
 
-<details>
-<summary>User / Permissions Migration</summary>
-
-```
-Are the users using auth/authentication federated service? SSO auth?
-
-User’s apply through filling out forms without the necessity of creating an account with the bank (it is open to anyone)
-so there should be no auth involved.
-In the future we might incorporate federated auth that will allow us to fill out some information that we currently
-request to users. So any prep work for the future would be great.
-```
-</details>
-
-
 ## Proposed Architecture
 
 The following is ***a proposal***. Therefore, the infrastructure may have the required resources and correlation between them, but is in no way ready for usage.  It works as some extent. Lambda functions needs to be fine-tuned, workflows needs to be tested, data stream needs to be tested, the processing application doesn't exist. Batch configuration needs to be improved.  This is an example that is 70% completed, not intented for application. 
