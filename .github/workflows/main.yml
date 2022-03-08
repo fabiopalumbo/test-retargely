@@ -34,7 +34,6 @@ jobs:
         terraform_version: 0.13.4
 
     - name: Terraform init
-      uses: hashicorp/setup-terraform@v1
       run: terraform init
 
     - name: Terraform Validate
