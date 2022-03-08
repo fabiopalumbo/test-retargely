@@ -1481,11 +1481,24 @@ Fexibility
 
 ## Monitoring and Alerting
 
-(WIP)
+We will use Cloudwatch to monitor API Gateway and Lambda Metrics
+
+Key metrics for monitoring AWS Lambda
+
+1. Function utilization and performance metrics.
+2. Invocation metrics.
+3. Concurrency metrics.
+4. Provisioned concurrency metrics.
+
+Key metrics for monitoring AWS Lambda
+
+1. 5XX Error
+2. 4XX Error
+3. Service health status.
 
 ## CICD Automation
 
-(Explnation WIP)
+![alt text](/images/cicd.png "CICD")
 
 Using a CI/CD tool (i.e. Github Actions) 
 1. Setup a build process to create a docker image of just the batch processing part of the monolithic application.
@@ -1504,16 +1517,6 @@ Wew will use the principle of Least Priviledge
 2. S3 Bucket will be retricted and with ACL configured as private
 3. Bussiness Logic will be deployed in the private layer
 
-
-## Disaster Recovery Plan
-
-(RTO) (RPO)
-
-## Compliance
-
-(WAF) (GDPR)
-
-## Budget
 
 Calculation Report
 ![alt text](/images/estimate.png "AWS price estimation")
