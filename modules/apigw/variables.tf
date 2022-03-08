@@ -3,7 +3,7 @@ variable "s3_arn" {
 }
 variable "identifier" {
   type = string 
-  default = "identifier"
+  default = "retargely"
 }
 variable "tags" {
   description = "A map of tags to add to all resources"

@@ -19,8 +19,8 @@ data "aws_iam_policy_document" "api_gw_access_s3_assume_policy" {
         "s3:GetObjectAcl"
       ]
       resources = [
-        "arn:aws:s3:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:{var.bucket}",
-        "arn:aws:s3:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:{var.bucket}/*",
+        "arn:aws:s3:::{var.bucket}",
+        "arn:aws:s3:::{var.bucket}/*",
       ]
   }
   statement {        
@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "api_gw_access_s3_assume_policy" {
         "s3:GetBucketLocation"
       ]
       resources = [
-        "arn:aws:s3:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:{var.bucket}"
+        "arn:aws:s3:::{var.bucket}"
       ]
       }
 }

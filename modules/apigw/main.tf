@@ -19,14 +19,14 @@ resource "aws_api_gateway_rest_api" "this" {
 
   tags = merge(
       {
-        "Name" = "stream-api-${var.identifier}"
+        "Name" = "apigw-${var.identifier}"
       },
       var.tags
     )  
 }
 
 resource "aws_api_gateway_resource" "this" {
-  path_part   = "stream"
+  path_part   = "text"
   parent_id   = aws_api_gateway_rest_api.this.root_resource_id
   rest_api_id = aws_api_gateway_rest_api.this.id
 }

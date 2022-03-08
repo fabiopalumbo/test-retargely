@@ -4,43 +4,6 @@ resource "random_string" "this" {
   upper   = false
 }
 
-##################
-# S3 Bucket      #
-##################
-
-module "s3_bucket" {
-  source = "./modules/s3_bucket"
-
-  bucket = "${local.identifier}-${data.aws_region.current.name}-${data.aws_caller_identity.current.account_id}-${random_string.this.id}"
-  acl    = "private"
-
-  force_destroy = true
-
-  versioning = {
-    enabled = false
-  }
-
-  tags = local.tags
-}
-
-##################
-# API Gateway    #
-##################
-
-module "apigw" {
-  source = "./modules/apigw"
-  s3_arn        = module.s3_bucket.s3_bucket_arn
-  # lambda_arn    = module.text_loader.lambda_function_arn
-
-  tags = local.tags
-
-  depends_on = [
-    module.text_loader,
-    module.s3_bucket
-  ]
-
-}
-
 #######
 # VPC #
 #######
@@ -76,6 +39,44 @@ module "vpc" {
   private_dedicated_network_acl = true
 
   tags = local.tags 
+}
+
+
+##################
+# S3 Bucket      #
+##################
+
+module "s3_bucket" {
+  source = "./modules/s3_bucket"
+
+  bucket = "${local.identifier}-${data.aws_region.current.name}-${data.aws_caller_identity.current.account_id}-${random_string.this.id}"
+  acl    = "private"
+
+  force_destroy = true
+
+  versioning = {
+    enabled = false
+  }
+
+  tags = local.tags
+}
+
+##################
+# API Gateway    #
+##################
+
+module "apigw" {
+  source = "./modules/apigw"
+  s3_arn        = module.s3_bucket.s3_bucket_arn
+  lambda_arn    = "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:${local.identifier}-text-loader"
+
+  tags = local.tags
+
+  depends_on = [
+    module.text_loader,
+    module.s3_bucket
+  ]
+
 }
 
 ##########

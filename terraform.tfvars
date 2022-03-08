@@ -1,5 +1,5 @@
 region                        = "us-east-1"
-identifier                    = "retargely"
+identifier                    = "dev"
 
 
 # Lambda
