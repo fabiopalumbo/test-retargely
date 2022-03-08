@@ -56,6 +56,77 @@ The Git repository should contain a README that explains step by step how to run
 
 </details>
 
+
+## Questions
+<details>
+<summary><b>How would the lambda code deploy flow be for someone who is not a devop and does not have access to Terraform, how would you automate it?</b></summary>
+
+---
+We will create a CICD Pipeline using Github Actions, whenever the python code of the Lambda gets updated, the CICD will redeploy the lambda code to update to the latest version.
+</details>
+
+<details>
+<summary><b>What resources would you monitor</b></summary>
+
+---
+We will monitor APIGW and Lambda resources, more information can be found Alerts section.
+
+</details>
+
+<details>
+<summary><b>What values ​​of the resources would you monitor?</b></summary>
+
+---
+For Lambda we will review invocations metrics, concurrency, utilization and performance.
+For APIGW we will monitor Erro codes as 4XX and 5XX, Latency and also service health status (API calls)
+</details>
+
+<details>
+<summary><b>What values ​​would you put an alert on?</b></summary>
+
+---
+We will define alarm/threshold for Lambda regarding
+```
+functionErrors:
+        period: 600
+functionInvocations:
+        threshold: 10
+        period: 600
+functionPerformance:
+        metric: duration
+        threshold: 200
+        statistic: Average
+        period: 300
+        evaluationPeriods: 1
+        datapointsToAlarm: 1
+        comparisonOperator: GreaterThanThreshold
+```
+
+We will define alarm/threshold for APIGW regarding
+```
+latency_threshold_p95 - 95th percentile latency, which represents typical customer experienced latency figures
+        threshold: 1000
+        period: 5
+latency_threshold_p99 - 99th percentile latency, represents the worst case latency that customers experience
+        threshold: 1000
+        period: 5
+fourRate_threshold - HTTP 400 errors reported by the endpoint
+        threshold: 0.02
+        period: 5
+fiveRate_threshold - HTTP 500 internal server errors reported by the endpoint
+        threshold: 0.02
+        period: 5               
+```
+
+</details>
+
+<details>
+<summary><b>With what tool and how would you implement the monitoring/alerts.</b></summary>
+
+---
+We are going to deploy monitoring and alerts with Cloudwatch that is integrated to Lambda and ApiG metrics, all will be deployed using terraform.
+</details>
+
 ## FAQ
 
 <details>
@@ -1501,11 +1572,11 @@ Key metrics for monitoring AWS Lambda
 ![alt text](/images/cicd.png "CICD")
 
 Using a CI/CD tool (i.e. Github Actions) 
-1. Setup a build process to create a docker image of just the batch processing part of the monolithic application.
-2. Push the resulting image to AWS ECR.
-3. Update the Batch Job Definition with the new image tag. 
+1. The CICD will review the Code using Sonarqube.
+2. Using the Terraform Github Actions functions will run the terraform fmt/ validate.
+3. Update the Lambda with new version if required. 
+4. Publish in the PR the findings.
 
-The next execution will use the newly created image. 
 
 ## Permissions 
 
