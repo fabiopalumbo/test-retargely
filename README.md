@@ -1549,7 +1549,7 @@ Wew will use the principle of Least Priviledge
 3. Bussiness Logic will be deployed in the private layer
 
 
-Calculation Report
+## Calculation Report
 ![alt text](/images/estimate.png "AWS price estimation")
 
 The above was generated using https://calculator.aws/#/.  Is an approximation for heavy usage on the 100 million requests per month. 
