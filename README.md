@@ -1510,32 +1510,6 @@ We will consider the following metrics
 * Latency
 * Fexibility 
 
-<details>
-<summary>Summary</summary>
-  
-Scalability
-* What: Data storage availability, Processing compute power, Low concurrecy limits. 
-* Why: Direct impact on customer experience, Reduced time and cost. 
-
-Reliability
-* What: S3 redundancy and failover, Cero downtime under Availability zone. 
-* Why: Business process persistance, direct customer experience. 
-
-Availability
-* What: Multi zone enabled, Zero downtime under Availability zone failure. 
-* Why: Business process persistance, direct customer experience. 
-
-Latency
-* What: API GW call and efficiency
-* Why: Direct impact on customer experience, Reduced time and cost.
-
-Fexibility
-* What: Event driven architecture easy enough modifications and behaviors. Lambda functions and events. 
-* Why: Bussiness logic dependant. If more Scalability, Availability is needed, it can be configured and added if needed. 
-
-
-</details>
-
 ## Monitoring and Alerting
 
 We will use Cloudwatch to monitor API Gateway and Lambda Metrics
