@@ -7,8 +7,7 @@ locals {
 data "external" "archive_prepare" {
   count = var.create && var.create_package ? 1 : 0
 
-  program     = [local.python, "${path.module}/package.py", "prepare"]
-  working_dir = path.cwd
+  program = [local.python, "${path.module}/package.py", "prepare"]
 
   query = {
     paths = jsonencode({
@@ -25,11 +24,20 @@ data "external" "archive_prepare" {
       with_ssh_agent    = var.docker_with_ssh_agent
     }) : null
 
-    artifacts_dir    = var.artifacts_dir
-    runtime          = var.runtime
-    source_path      = jsonencode(var.source_path)
-    hash_extra       = var.hash_extra
-    hash_extra_paths = jsonencode(["${path.module}/package.py"])
+    artifacts_dir = var.artifacts_dir
+    runtime       = var.runtime
+    source_path   = jsonencode(var.source_path)
+    hash_extra    = var.hash_extra
+    hash_extra_paths = jsonencode(
+      [
+        # Temporary fix when building from multiple locations
+        # We should take into account content of package.py when counting hash
+        # Related issue: https://github.com/terraform-aws-modules/terraform-aws-lambda/issues/63
+        # "${path.module}/package.py"
+      ]
+    )
+
+    recreate_missing_package = var.recreate_missing_package
   }
 }
 
@@ -59,8 +67,7 @@ resource "null_resource" "archive" {
       local.python, "${path.module}/package.py", "build",
       "--timestamp", data.external.archive_prepare[0].result.timestamp
     ]
-    command     = data.external.archive_prepare[0].result.build_plan_filename
-    working_dir = path.cwd
+    command = data.external.archive_prepare[0].result.build_plan_filename
   }
 
   depends_on = [local_file.archive_plan]
