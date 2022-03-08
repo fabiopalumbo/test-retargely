@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_s3_bucket_object" "file_upload" {
-  bucket = aws_s3_bucket.this.id
+  bucket = aws_s3_bucket.this.0.id
   key    = "text.txt"
   source = "${path.module}/files/text.txt"
   etag   = filemd5("${path.module}/files/text.txt")
