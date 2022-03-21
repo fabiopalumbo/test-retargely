@@ -1502,6 +1502,39 @@ public-subnets ["10.0.101.0/24", "10.0.102.0/24"]
 pruvate-subnets ["10.0.101.0/24", "10.0.102.0/24"]
 
 ```
+
+## Testing API gateway / lamgda
+
+Ino rder to manually update the lambda and test de api gateway, we will rely on the output of the invoke_url and the lambda name
+```
+output "deployment_invoke_url" {
+  description = "Deployment invoke url"
+  value       = module.apigw.aws_api_gateway_invoke_url
+}
+
+output "lambda_function_name" {
+  description = "The name of the Lambda Function"
+  value       = module.text_loader.lambda_function_name
+}
+```
+
+After that we will use aws cli to upload the lambda, using the lambda name that the terraform output
+
+```
+cd functions && zip -r function.zip . && aws lambda update-function-code --function-name MYFUNC --zip-file fileb://function.zip && rm function.zip
+
+```
+
+Testing API
+
+After we updated the function then we can curl to the invoke url of the api gateway and the method
+```
+curl {INVOKE_URL}/steam
+
+response
+```
+
+
 ## Observability
 
 We will consider the following metrics
