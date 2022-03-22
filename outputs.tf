@@ -3,7 +3,7 @@ output "deployment_invoke_url" {
   value       = module.apigw.aws_api_gateway_invoke_url
 }
 
-output "lambda_function_name" {
-  description = "The name of the Lambda Function"
-  value       = module.text_loader.lambda_function_name
+output "s3_bucket_id" {
+  description = "The name of the bucket."
+  value       = module.s3_bucket.s3_bucket_id
 }

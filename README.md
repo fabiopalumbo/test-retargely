@@ -1512,16 +1512,46 @@ output "deployment_invoke_url" {
   value       = module.apigw.aws_api_gateway_invoke_url
 }
 
-output "lambda_function_name" {
-  description = "The name of the Lambda Function"
-  value       = module.text_loader.lambda_function_name
-}
 ```
 
 After that we will use aws cli to upload the lambda, using the lambda name that the terraform output
 
 ```
-cd functions && zip -r function.zip . && aws lambda update-function-code --function-name MYFUNC --zip-file fileb://function.zip && rm function.zip
+cd functions && zip -r function.zip . && aws lambda update-function-code --function-name dev-retargely-text-loader --zip-file fileb://function.zip && rm function.zip
+
+ adding: s3_text_return.py (deflated 39%)
+{
+    "FunctionName": "dev-retargely-text-loader",
+    "FunctionArn": "arn:aws:lambda:us-east-1:zzz:function:dev-retargely-text-loader",
+    "Runtime": "python3.7",
+    "Role": "arn:aws:iam::zzz:role/dev-retargely-text-loader",
+    "Handler": "handler",
+    "CodeSize": 387,
+    "Description": "Lambda function to asynchronous retrieve file from s3 bucket",
+    "Timeout": 30,
+    "MemorySize": 128,
+    "LastModified": "2022-03-22T00:19:37.000+0000",
+    "CodeSha256": "JKX2CSfPN1VJ4G/HUfj99YC3mvCxTnxR9+xg5JPptNA=",
+    "Version": "$LATEST",
+    "Environment": {
+        "Variables": {
+            "DEBUG": "true",
+            "LOG_LEVEL": "info"
+        }
+    },
+    "TracingConfig": {
+        "Mode": "PassThrough"
+    },
+    "RevisionId": "d99e633a-32a0-44e2-aff1-4e46628d94bb",
+    "State": "Active",
+    "LastUpdateStatus": "InProgress",
+    "LastUpdateStatusReason": "The function is being created.",
+    "LastUpdateStatusReasonCode": "Creating",
+    "PackageType": "Zip",
+    "Architectures": [
+        "x86_64"
+    ]
+}
 
 ```
 
