@@ -48,7 +48,7 @@ variable "lambda" {
         type = any
         default = { 
                 text_loader = {
-                        handler = "handler"
+                        handler = "s3_text_return.handler"
                         runtime = "python3.7"
                         source_path = "./functions/s3_text_returner.py"
                 }                                        

@@ -211,6 +211,7 @@ data "aws_iam_policy_document" "text_lambda_loader" {
       effect = "Allow"
       actions = [
         "s3:ListBucket",
+        "s3:ListObjectsV2",
         "s3:GetBucketLocation"
       ]
       resources = [
