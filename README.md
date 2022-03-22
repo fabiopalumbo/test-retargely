@@ -1514,6 +1514,27 @@ output "deployment_invoke_url" {
 
 ```
 
+Replace the target bucket and key with the output information
+```
+import json
+import boto3
+
+s3_client = boto3.client("s3")
+S3_BUCKET = 'dev-retargely-us-east-1-476795228417-9opw'
+S3_PREFIX = 'text.txt'
+
+
+def handler(event, context):
+    response = s3_client.list_objects_v2(
+        Bucket=S3_BUCKET, Prefix=S3_PREFIX, StartAfter=S3_PREFIX,)
+    s3_files = response["Contents"]
+    for s3_file in s3_files:
+        file_content = json.loads(s3_client.get_object(
+            Bucket=S3_BUCKET, Key=s3_file["Key"])["Body"].read())
+        print(file_content)        
+
+```
+
 After that we will use aws cli to upload the lambda, using the lambda name that the terraform output
 
 ```

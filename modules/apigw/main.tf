@@ -11,7 +11,6 @@ resource "random_string" "this" {
 resource "aws_api_gateway_rest_api" "this" {
   name        = "${var.identifier}-apigw"
   description = "${var.identifier} Endpoint"
-  api_key_source  = "HEADER"
   
   endpoint_configuration {
     types = [ "EDGE" ]
@@ -34,7 +33,7 @@ resource "aws_api_gateway_resource" "this" {
 resource "aws_api_gateway_method" "this" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
   resource_id   = aws_api_gateway_resource.this.id
-  http_method   = "PUT"
+  http_method   = "GET"
   authorization = "NONE"
   api_key_required = true
 }
