@@ -1,56 +1,16 @@
-#Define a policy which will allow APIGW to Assume an IAM Role
-data "aws_iam_policy_document" "apigw_assume_role" {
-  statement {
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
-    principals {
-      type        = "Service"
-      identifiers = ["apigateway.amazonaws.com"]
+{
+  "Version": "2012-10-17",
+  "Id": "default",
+  "Statement": [
+    {
+      "Sid": "apig-functiongetEndpointPermission-BWDBXMPLXE2F",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "apigateway.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "${var.lambda_arn}",
+
     }
-  }
-}
-
-# Define a policy which will allow APIGW to access your s3
-data "aws_iam_policy_document" "api_gw_access_s3_assume_policy" {
-  statement {
-      effect = "Allow"
-      actions = [
-        "s3:GetObject",
-        "s3:GetObjectAcl"
-      ]
-      resources = [
-        "arn:aws:s3:::${var.bucket}",
-        "arn:aws:s3:::${var.bucket}/*",
-      ]
-  }
-  statement {        
-      effect = "Allow"
-      actions = [
-        "s3:ListAllMyBuckets"
-      ]
-      resources = ["*"]
-      }
-  statement {        
-      effect = "Allow"
-      actions = [
-        "s3:ListBucket",
-        "s3:GetBucketLocation"
-      ]
-      resources = [
-        "arn:aws:s3:::${var.bucket}"
-      ]
-      }
-}
-
-#creates a new iam role
-resource "aws_iam_role" "api_gw_role" {
-  name               = "${var.identifier}-api_gw_role-${random_string.this.id}"
-  assume_role_policy = data.aws_iam_policy_document.apigw_assume_role.json
-}
-
-#attach s3 access policy
-resource "aws_iam_role_policy" "api_gw_access_s3_policy" {
-  name   = "${var.identifier}-api_s4-${random_string.this.id}"
-  role   = aws_iam_role.api_gw_role.name
-  policy = data.aws_iam_policy_document.api_gw_access_s3_assume_policy.json
+  ]
 }
