@@ -33,5 +33,5 @@ resource "aws_iam_role" "api_gw_role" {
 resource "aws_iam_role_policy" "api_gw_access_s3_policy" {
   name   = "${var.identifier}-api_invoke-${random_string.this.id}"
   role   = aws_iam_role.api_gw_role.name
-  policy = data.aws_iam_policy_document.api_gw_invoke_policy.json
+  policy = data.aws_iam_policy_document.api_gw_lambda_invoke_policy.json
 }
