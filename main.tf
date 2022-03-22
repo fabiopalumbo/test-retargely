@@ -67,8 +67,9 @@ module "s3_bucket" {
 
 module "apigw" {
   source = "./modules/apigw"
-  s3_arn        = module.s3_bucket.s3_bucket_arn
-  lambda_arn    = module.text_loader.0.lambda_function_invoke_arn
+  s3_arn              = module.s3_bucket.s3_bucket_arn
+  lambda_arn          = module.text_loader.0.lambda_function_arn
+  lambda_invoke_arn   = module.text_loader.0.lambda_function_invoke_arn
 
   tags = local.tags
 

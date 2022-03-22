@@ -15,3 +15,8 @@ variable "lambda_arn" {
   type = string
   default = ""
 }
+
+variable "lambda_invoke_arn" { 
+  type = string
+  default = ""
+}
