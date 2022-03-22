@@ -196,8 +196,8 @@ data "aws_iam_policy_document" "text_lambda_loader" {
         "s3:GetObjectAcl"
       ]
       resources = [
-        "arn:aws:s3:::{var.bucket}",
-        "arn:aws:s3:::{var.bucket}/*",
+        "arn:aws:s3:::${var.bucket}",
+        "arn:aws:s3:::${var.bucket}/*",
       ]
   }
   statement {        
@@ -215,7 +215,7 @@ data "aws_iam_policy_document" "text_lambda_loader" {
         "s3:GetBucketLocation"
       ]
       resources = [
-        "arn:aws:s3:::{var.bucket}"
+        "arn:aws:s3:::${var.bucket}"
       ]
       }
 }
