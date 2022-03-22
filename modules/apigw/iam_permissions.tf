@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "api_gw_lambda_invoke_policy" {
         "lambda:InvokeFunction"
       ]
       resources = [
-        "var.lambda_arn",
+        var.lambda_arn,
       ]
   }
 }
